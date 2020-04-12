@@ -7,7 +7,9 @@
 - =inform7-mode= for editing Inform 7 files
 - support for detecting Inform 7 (=.ni=, =.i7=) and Inform 7
   extension (=.i7x=) files
-- syntax highlighting for headings
+- basic syntax highlighting
+  - block comments
+  - headings
 
 * 0.0.0 - 2020-04-12
 

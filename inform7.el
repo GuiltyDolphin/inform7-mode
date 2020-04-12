@@ -120,6 +120,9 @@
                 ;; ignore case of keywords
                 t)))
 
+(modify-syntax-entry ?\[ "< n" inform7-mode-syntax-table)
+(modify-syntax-entry ?\] "> n" inform7-mode-syntax-table)
+
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.\\(ni\\|i7\\)\\'" . inform7-mode)) ; Inform 7 source files (aka 'Natural Inform')
 ;;;###autoload
