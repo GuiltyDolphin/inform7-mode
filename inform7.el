@@ -32,7 +32,7 @@
 ;;; Code:
 
 ;;;###autoload
-(define-derived-mode inform7-mode prog-mode
+(define-derived-mode inform7-mode text-mode
   "Inform7"
   "Major mode for editing Inform 7 files.")
 
