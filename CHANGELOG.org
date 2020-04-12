@@ -1,0 +1,10 @@
+#+TITLE: Changelog
+
+* Unreleased
+
+** Added
+
+- =CHANGELOG.org=
+- =inform7.el=
+- =LICENSE= (GPL-3.0)
+- =README.org=
