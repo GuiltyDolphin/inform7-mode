@@ -11,6 +11,8 @@
   - block comments
   - headings
   - quoted text
+- support for manipulating comments with =newcomment.el=
+  (e.g., =comment-box=)
 
 * 0.0.0 - 2020-04-12
 

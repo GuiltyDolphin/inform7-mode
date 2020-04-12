@@ -112,6 +112,14 @@
   "Inform7"
   "Major mode for editing Inform 7 files."
 
+  ;; Comments
+  (setq-local comment-start "[")
+  (setq-local comment-end "]")
+  (setq-local comment-start-skip "\\[[[:space:]]*")
+  (setq-local comment-column 0)
+  (setq-local comment-auto-fill-only-comments nil)
+  (setq-local comment-use-syntax t)
+
   ;; Font Lock
   (setq-local font-lock-defaults
               '(inform7-font-lock-keywords
