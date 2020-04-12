@@ -31,15 +31,56 @@
 
 ;;; Code:
 
+
+;;;;;;;;;;;;;;;;;;;;;
+;;;;; Font Lock ;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+
+
+(require 'font-lock)
+
+(defgroup inform7-faces nil
+  "Faces used in Inform 7 mode."
+  :group 'inform7
+  :group 'faces)
+
+(defface inform7-heading-face
+  '((t . (:inherit variable-pitch :weight bold)))
+  "Face for Inform 7 headings."
+  :group 'inform7-faces)
+
+(defconst inform7-regex-heading
+  "^\\(?:Volume\\|Book\\|Part\\|Chapter\\|Section\\)[[:space:]]+[^[:space:]].*$"
+  "Regular expression for an Inform 7 heading.")
+
+(defvar inform7-font-lock-keywords
+  `((,inform7-regex-heading . 'inform7-heading-face))
+  "Syntax highlighting for Inform 7 files.")
+
+
+;;;;;;;;;;;;;;;;;;;;;;
+;;;;; Major Mode ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;
+
+
 ;;;###autoload
 (define-derived-mode inform7-mode text-mode
   "Inform7"
-  "Major mode for editing Inform 7 files.")
+  "Major mode for editing Inform 7 files."
+
+  ;; Font Lock
+  (setq-local font-lock-defaults
+              '(inform7-font-lock-keywords
+                ;; fontify syntax (not just keywords)
+                nil
+                ;; ignore case of keywords
+                t)))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.\\(ni\\|i7\\)\\'" . inform7-mode)) ; Inform 7 source files (aka 'Natural Inform')
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.i7x\\'" . inform7-mode))           ; Inform 7 extension files
+
 
 (provide 'inform7)
 ;;; inform7.el ends here
