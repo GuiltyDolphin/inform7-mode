@@ -45,7 +45,7 @@
   :group 'faces)
 
 (defface inform7-string-face
-  '((t . (:inherit font-lock-string-face :foreground "#004D99")))
+  '((t . (:inherit font-lock-string-face :weight bold :foreground "#004D99")))
   "Face for Inform 7 strings."
   :group 'inform7-faces)
 
