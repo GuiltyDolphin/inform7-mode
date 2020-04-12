@@ -44,17 +44,61 @@
   :group 'inform7
   :group 'faces)
 
-(defface inform7-heading-face
-  '((t . (:inherit variable-pitch :weight bold)))
-  "Face for Inform 7 headings."
+(defface inform7-heading-volume-face
+  '((t . (:inherit inform7-heading-book-face :height 1.4)))
+  "Face for Inform 7 volume headings."
   :group 'inform7-faces)
 
-(defconst inform7-regex-heading
-  "^\\(?:Volume\\|Book\\|Part\\|Chapter\\|Section\\)[[:space:]]+[^[:space:]].*$"
-  "Regular expression for an Inform 7 heading.")
+(defface inform7-heading-book-face
+  '((t . (:inherit inform7-heading-part-face :height 1.3)))
+  "Face for Inform 7 book headings."
+  :group 'inform7-faces)
+
+(defface inform7-heading-part-face
+  '((t . (:inherit inform7-heading-chapter-face :height 1.2)))
+  "Face for Inform 7 part headings."
+  :group 'inform7-faces)
+
+(defface inform7-heading-chapter-face
+  '((t . (:inherit inform7-heading-section-face :height 1.1)))
+  "Face for Inform 7 chapter headings."
+  :group 'inform7-faces)
+
+(defface inform7-heading-section-face
+  '((t . (:inherit variable-pitch :weight bold)))
+  "Face for Inform 7 section headings."
+  :group 'inform7-faces)
+
+(defun inform7--make-regex-heading (keyword)
+  "Produce a regular expression for matching headings started by the given KEYWORD."
+  (format "^%s[[:space:]]+[^[:space:]].*$" keyword))
+
+(defconst inform7-regex-heading-volume
+  (inform7--make-regex-heading "Volume")
+  "Regular expression for an Inform 7 volume heading.")
+
+(defconst inform7-regex-heading-book
+  (inform7--make-regex-heading "Book")
+  "Regular expression for an Inform 7 book heading.")
+
+(defconst inform7-regex-heading-part
+  (inform7--make-regex-heading "Part")
+  "Regular expression for an Inform 7 part heading.")
+
+(defconst inform7-regex-heading-chapter
+  (inform7--make-regex-heading "Chapter")
+  "Regular expression for an Inform 7 chapter heading.")
+
+(defconst inform7-regex-heading-section
+  (inform7--make-regex-heading "Section")
+  "Regular expression for an Inform 7 section heading.")
 
 (defvar inform7-font-lock-keywords
-  `((,inform7-regex-heading . 'inform7-heading-face))
+  `((,inform7-regex-heading-volume . 'inform7-heading-volume-face)
+    (,inform7-regex-heading-book . 'inform7-heading-book-face)
+    (,inform7-regex-heading-part . 'inform7-heading-part-face)
+    (,inform7-regex-heading-chapter . 'inform7-heading-chapter-face)
+    (,inform7-regex-heading-section . 'inform7-heading-section-face))
   "Syntax highlighting for Inform 7 files.")
 
 
