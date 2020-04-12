@@ -44,6 +44,16 @@
   :group 'inform7
   :group 'faces)
 
+(defface inform7-string-face
+  '((t . (:inherit font-lock-string-face :foreground "#004D99")))
+  "Face for Inform 7 strings."
+  :group 'inform7-faces)
+
+(defface inform7-substitution-face
+  '((t . (:inherit variable-pitch :slant italic :foreground "#3E9EFF")))
+  "Face for Inform 7 substitutions embedded in text."
+  :group 'inform7-faces)
+
 (defface inform7-heading-volume-face
   '((t . (:inherit inform7-heading-book-face :height 1.4)))
   "Face for Inform 7 volume headings."
@@ -93,12 +103,31 @@
   (inform7--make-regex-heading "Section")
   "Regular expression for an Inform 7 section heading.")
 
+(defconst inform7-regex-substitution-maybe-open
+  "\\[\\(?:[^]]\\|\\n\\)*\\]?+"
+  "Regular expression for matching a substitution embedded in an Inform 7 string (which may not be closed).")
+
+(defconst inform7-regex-string-maybe-open
+  (format "\"\\(?:%s\\|[^\"]\\|\\n\\)*\"?+" inform7-regex-substitution-maybe-open)
+  "Regular expression for matching an Inform 7 string (which may not be closed).")
+
+(defun inform7--match-inside (outer matcher facespec)
+  "Match inside the match OUTER with MATCHER, fontifying with FACESPEC."
+  (let ((preform `(progn
+                    (goto-char (match-beginning 0))
+                    (match-end 0))))
+    `(,outer . '(,matcher ,preform nil (0 ,facespec t)))))
+
 (defvar inform7-font-lock-keywords
   `((,inform7-regex-heading-volume . 'inform7-heading-volume-face)
     (,inform7-regex-heading-book . 'inform7-heading-book-face)
     (,inform7-regex-heading-part . 'inform7-heading-part-face)
     (,inform7-regex-heading-chapter . 'inform7-heading-chapter-face)
-    (,inform7-regex-heading-section . 'inform7-heading-section-face))
+    (,inform7-regex-heading-section . 'inform7-heading-section-face)
+    ;; strings
+    (,inform7-regex-string-maybe-open 0 'inform7-string-face t)
+    ;; substitutions
+    ,(inform7--match-inside inform7-regex-string-maybe-open inform7-regex-substitution-maybe-open `'inform7-substitution-face))
   "Syntax highlighting for Inform 7 files.")
 
 
@@ -127,10 +156,11 @@
                 nil
                 ;; ignore case of keywords
                 t
-                ((?\[ . "< n")   ; open block comment
-                 (?\] . "> n")   ; close block comment
-                 (?\" . "\"")    ; quote
-                 (?\\ . "."))))) ; backslashes don't escape
+                ((?\[ . "< n") ; open block comment
+                 (?\] . "> n") ; close block comment
+                 (?\" . ".")   ; quote
+                 (?\\ . "."))  ; backslashes don't escape
+                (font-lock-multiline . t))))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.\\(ni\\|i7\\)\\'" . inform7-mode)) ; Inform 7 source files (aka 'Natural Inform')

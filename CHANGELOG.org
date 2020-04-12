@@ -11,6 +11,7 @@
   - block comments
   - headings
   - quoted text
+  - text substitutions
 - support for manipulating comments with =newcomment.el=
   (e.g., =comment-box=)
 
