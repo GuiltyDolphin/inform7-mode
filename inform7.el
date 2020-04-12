@@ -36,5 +36,10 @@
   "Inform7"
   "Major mode for editing Inform 7 files.")
 
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.\\(ni\\|i7\\)\\'" . inform7-mode)) ; Inform 7 source files (aka 'Natural Inform')
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.i7x\\'" . inform7-mode))           ; Inform 7 extension files
+
 (provide 'inform7)
 ;;; inform7.el ends here
