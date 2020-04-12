@@ -126,12 +126,11 @@
                 ;; fontify syntax (not just keywords)
                 nil
                 ;; ignore case of keywords
-                t)))
-
-(modify-syntax-entry ?\[ "< n" inform7-mode-syntax-table)
-(modify-syntax-entry ?\] "> n" inform7-mode-syntax-table)
-(modify-syntax-entry ?\" "\"" inform7-mode-syntax-table)
-(modify-syntax-entry ?\\ "." inform7-mode-syntax-table)
+                t
+                ((?\[ . "< n")   ; open block comment
+                 (?\] . "> n")   ; close block comment
+                 (?\" . "\"")    ; quote
+                 (?\\ . "."))))) ; backslashes don't escape
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.\\(ni\\|i7\\)\\'" . inform7-mode)) ; Inform 7 source files (aka 'Natural Inform')
