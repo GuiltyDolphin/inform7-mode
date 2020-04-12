@@ -2,6 +2,10 @@
 
 * Unreleased
 
+** Added
+
+- =inform7-mode= for editing Inform 7 files
+
 * 0.0.0 - 2020-04-12
 
 ** Added

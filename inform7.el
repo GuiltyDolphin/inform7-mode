@@ -31,5 +31,10 @@
 
 ;;; Code:
 
+;;;###autoload
+(define-derived-mode inform7-mode prog-mode
+  "Inform7"
+  "Major mode for editing Inform 7 files.")
+
 (provide 'inform7)
 ;;; inform7.el ends here
