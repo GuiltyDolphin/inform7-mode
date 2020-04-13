@@ -83,6 +83,10 @@
   "Produce a regular expression for matching headings started by the given KEYWORD."
   (format "^%s[[:space:]]+[^[:space:]].*$" keyword))
 
+(defconst inform7-regex-heading
+  (inform7--make-regex-heading "\\(?:Volume\\|Book\\|Part\\|Chapter\\|Section\\)")
+  "Regular expression for an Inform 7 heading.")
+
 (defconst inform7-regex-heading-volume
   (inform7--make-regex-heading "Volume")
   "Regular expression for an Inform 7 volume heading.")
@@ -131,6 +135,24 @@
   "Syntax highlighting for Inform 7 files.")
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;; imenu Support ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(defun inform7-imenu-create-flat-index ()
+  "Produce a flat imenu index for the current buffer.
+See `imenu-create-index-function' for details."
+  (let (index)
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward inform7-regex-heading nil t)
+        (let ((heading (match-string-no-properties 0))
+              (pos (match-beginning 0)))
+          (setq index (append index (list (cons heading pos)))))))
+    index))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;
 ;;;;; Major Mode ;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -160,7 +182,11 @@
                  (?\] . "> n") ; close block comment
                  (?\" . ".")   ; quote
                  (?\\ . "."))  ; backslashes don't escape
-                (font-lock-multiline . t))))
+                (font-lock-multiline . t)))
+
+  ;; imenu support
+  (setq imenu-create-index-function
+        #'inform7-imenu-create-flat-index))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.\\(ni\\|i7\\)\\'" . inform7-mode)) ; Inform 7 source files (aka 'Natural Inform')
