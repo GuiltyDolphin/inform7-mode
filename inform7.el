@@ -88,11 +88,11 @@
   "Produce a regular expression for matching RE at the beginning of the line.
 
 Ignores whitespace."
-  (format "\\(?:^[[:space:]]*\\)%s" re))
+  (format "\\(?:^[[:blank:]]*\\)%s" re))
 
 (defun inform7--make-regex-heading (keyword)
   "Produce a regular expression for matching headings started by the given KEYWORD."
-  (inform7--make-regex-bol (format "%s[[:space:]]+[^[:space:]].*$" keyword)))
+  (inform7--make-regex-bol (format "%s[[:blank:]]+[^[:blank:]].*$" keyword)))
 
 (defconst inform7-regex-heading
   (inform7--make-regex-heading "\\(?:Volume\\|Book\\|Part\\|Chapter\\|Section\\)")
