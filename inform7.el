@@ -54,6 +54,11 @@
   "Face for Inform 7 substitutions embedded in text."
   :group 'inform7-faces)
 
+(defface inform7-rule-name-face
+  '((t . (:inherit font-lock-keyword-face)))
+  "Face for Inform 7 rule names."
+  :group 'inform7-faces)
+
 (defface inform7-heading-volume-face
   '((t . (:inherit inform7-heading-book-face :height 1.4)))
   "Face for Inform 7 volume headings."
@@ -115,6 +120,18 @@
   (format "\"\\(?:%s\\|[^\"]\\|\\n\\)*\"?+" inform7-regex-substitution-maybe-open)
   "Regular expression for matching an Inform 7 string (which may not be closed).")
 
+(defconst inform7-regex-standard-rule
+  (format "^\\(?:%s\\)" (regexp-opt-group
+                         '("After"
+                           "Before"
+                           "Check"
+                           "Carry out"
+                           "Every"
+                           "Instead of"
+                           "Report"
+                           "When")))
+  "Regular expression for matching a standard Inform 7 rule.")
+
 (defun inform7--match-inside (outer matcher facespec)
   "Match inside the match OUTER with MATCHER, fontifying with FACESPEC."
   (let ((preform `(progn
@@ -128,6 +145,8 @@
     (,inform7-regex-heading-part . 'inform7-heading-part-face)
     (,inform7-regex-heading-chapter . 'inform7-heading-chapter-face)
     (,inform7-regex-heading-section . 'inform7-heading-section-face)
+    ;; standard rules
+    (,inform7-regex-standard-rule . 'inform7-rule-name-face)
     ;; strings
     (,inform7-regex-string-maybe-open 0 'inform7-string-face t)
     ;; substitutions
