@@ -84,9 +84,15 @@
   "Face for Inform 7 section headings."
   :group 'inform7-faces)
 
+(defun inform7--make-regex-bol (re)
+  "Produce a regular expression for matching RE at the beginning of the line.
+
+Ignores whitespace."
+  (format "\\(?:^[[:space:]]*\\)%s" re))
+
 (defun inform7--make-regex-heading (keyword)
   "Produce a regular expression for matching headings started by the given KEYWORD."
-  (format "^%s[[:space:]]+[^[:space:]].*$" keyword))
+  (inform7--make-regex-bol (format "%s[[:space:]]+[^[:space:]].*$" keyword)))
 
 (defconst inform7-regex-heading
   (inform7--make-regex-heading "\\(?:Volume\\|Book\\|Part\\|Chapter\\|Section\\)")
@@ -121,15 +127,16 @@
   "Regular expression for matching an Inform 7 string (which may not be closed).")
 
 (defconst inform7-regex-standard-rule
-  (format "^\\(?:%s\\)" (regexp-opt-group
-                         '("After"
-                           "Before"
-                           "Check"
-                           "Carry out"
-                           "Every"
-                           "Instead of"
-                           "Report"
-                           "When")))
+  (inform7--make-regex-bol
+   (regexp-opt-group
+    '("After"
+      "Before"
+      "Check"
+      "Carry out"
+      "Every"
+      "Instead of"
+      "Report"
+      "When") t))
   "Regular expression for matching a standard Inform 7 rule.")
 
 (defun inform7--match-inside (outer matcher facespec)
