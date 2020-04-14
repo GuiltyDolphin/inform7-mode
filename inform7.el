@@ -166,6 +166,14 @@ Ignores whitespace."
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+(require 's)
+
+(defun inform7--normalise-heading-string (heading)
+  "Normalise the heading string HEADING.
+
+This does the following: removes extra whitespace."
+  (s-collapse-whitespace (s-trim heading)))
+
 (defun inform7-imenu-create-flat-index ()
   "Produce a flat imenu index for the current buffer.
 See `imenu-create-index-function' for details."
@@ -173,7 +181,7 @@ See `imenu-create-index-function' for details."
     (save-excursion
       (goto-char (point-min))
       (while (re-search-forward inform7-regex-heading nil t)
-        (let ((heading (match-string-no-properties 0))
+        (let ((heading (inform7--normalise-heading-string (match-string-no-properties 0)))
               (pos (match-beginning 0)))
           (setq index (append index (list (cons heading pos)))))))
     index))
