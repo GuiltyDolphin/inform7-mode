@@ -187,6 +187,46 @@ See `imenu-create-index-function' for details."
     index))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;
+;;;;; Indentation ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(defun inform7--goto-line (line)
+  "Move point to the beginning of LINE."
+  (save-restriction
+    (widen)
+    (goto-char (point-min))
+    (forward-line (1- line))))
+
+(defun inform7--line-starts-indent (line)
+  "Return non-NIL if LINE should cause subsequent lines to indent."
+  (save-excursion
+    (inform7--goto-line line)
+    (looking-at-p "^.*:[[:space:]]*$")))
+
+(defun inform7--line-indentation (line)
+  "Return the horizontal indentation for LINE."
+  (save-excursion
+    (inform7--goto-line line)
+    (current-indentation)))
+
+(defun inform7--max-indentation ()
+  "The maximum indentation for the current line."
+  ;; first line has max indentation 0
+  (if (eq (line-number-at-pos) 1) 0
+    (let* ((previous-line (save-excursion (forward-line -1) (line-number-at-pos)))
+           (prev-indent (inform7--line-indentation previous-line)))
+      (if (inform7--line-starts-indent previous-line)
+          (+ 1 prev-indent)
+        prev-indent))))
+
+(defun inform7-indent-line ()
+  "Indent the current line as Inform 7 code."
+  (interactive)
+  (indent-to (inform7--max-indentation)))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;
 ;;;;; Major Mode ;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -204,6 +244,9 @@ See `imenu-create-index-function' for details."
   (setq-local comment-column 0)
   (setq-local comment-auto-fill-only-comments nil)
   (setq-local comment-use-syntax t)
+
+  ;; Identing
+  (setq-local indent-line-function 'inform7-indent-line)
 
   ;; Font Lock
   (setq-local font-lock-defaults
