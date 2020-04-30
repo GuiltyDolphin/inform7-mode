@@ -5,7 +5,7 @@
 ;; URL: https://github.com/GuiltyDolphin/inform7-mode
 ;; Git-Repository: git://github.com/GuiltyDolphin/inform7-mode.git
 ;; Created: 2020-04-11
-;; Version: 0.0.0
+;; Version: 0.1.0
 ;; Keywords: languages
 ;; Package-Requires: ((s "1.12.0"))
 
