@@ -197,6 +197,11 @@ See `imenu-create-index-function' for details."
   (let ((face (get-text-property point 'face)))
     (memq face '(inform7-substitution-face inform7-string-face))))
 
+(defun inform7--in-comment-p (point)
+  "Return non-NIL if POINT is in a comment."
+  (let ((face (get-text-property point 'face)))
+    (eq face 'font-lock-comment-face)))
+
 (defun inform7--goto-line (line)
   "Move point to the beginning of LINE."
   (save-restriction
@@ -229,8 +234,8 @@ See `imenu-create-index-function' for details."
 (defun inform7-indent-line ()
   "Indent the current line as Inform 7 code."
   (interactive)
-  (if (inform7--in-string-p (point))
-      ;; no indentation cycles if in a string
+  (if (or (inform7--in-string-p (point)) (inform7--in-comment-p (point)))
+      ;; no indentation cycles if in a string or comment
       'noindent
     (indent-to (inform7--max-indentation))))
 
