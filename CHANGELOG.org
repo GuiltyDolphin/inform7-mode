@@ -12,6 +12,7 @@
 - basic indentation
   - after a rule introduction
   - default tab width is now 4
+  - free-form indentation in strings
 - basic syntax highlighting
   - block comments
   - headings
