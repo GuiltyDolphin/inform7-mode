@@ -5,7 +5,7 @@
 ;; URL: https://github.com/GuiltyDolphin/inform7-mode
 ;; Git-Repository: git://github.com/GuiltyDolphin/inform7-mode.git
 ;; Created: 2020-04-11
-;; Version: 0.1.0
+;; Version: 0.1.1
 ;; Keywords: languages
 ;; Package-Requires: ((emacs "24.3") (s "1.12.0"))
 

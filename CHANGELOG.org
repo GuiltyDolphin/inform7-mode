@@ -2,6 +2,8 @@
 
 * Unreleased
 
+* 0.1.1 - 2020-04-30
+
 ** Added
 
 - =emacs 24.3= is now a dependency (needed for =setq-local=)
