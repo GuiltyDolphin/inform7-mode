@@ -192,11 +192,6 @@ See `imenu-create-index-function' for details."
 ;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(defcustom inform7-tab-width 4
-  "Distance between tab stops to use in `inform7-mode'."
-  :group 'inform7
-  :type 'integer)
-
 (defun inform7--goto-line (line)
   "Move point to the beginning of LINE."
   (save-restriction
@@ -223,7 +218,7 @@ See `imenu-create-index-function' for details."
     (let* ((previous-line (save-excursion (forward-line -1) (line-number-at-pos)))
            (prev-indent (inform7--line-indentation previous-line)))
       (if (inform7--line-starts-indent previous-line)
-          (+ inform7-tab-width prev-indent)
+          (+ tab-width prev-indent)
         prev-indent))))
 
 (defun inform7-indent-line ()

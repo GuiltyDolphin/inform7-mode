@@ -11,8 +11,6 @@
   extension (=.i7x=) files
 - basic indentation
   - after a rule introduction
-  - custom variable =inform7-tab-width= for specifying how
-    wide to make tab stops
 - basic syntax highlighting
   - block comments
   - headings
