@@ -246,6 +246,7 @@ See `imenu-create-index-function' for details."
   (setq-local comment-use-syntax t)
 
   ;; Identing
+  (setq-local tab-width 4)
   (setq-local indent-line-function 'inform7-indent-line)
 
   ;; Font Lock

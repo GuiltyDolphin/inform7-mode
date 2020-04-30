@@ -11,6 +11,7 @@
   extension (=.i7x=) files
 - basic indentation
   - after a rule introduction
+  - default tab width is now 4
 - basic syntax highlighting
   - block comments
   - headings
