@@ -1,4 +1,4 @@
-;;; inform7.el --- Major mode for working with Inform 7 files
+;;; inform7.el --- Major mode for working with Inform 7 files -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020 Ben Moon
 ;; Author: Ben Moon <software@guiltydolphin.com>
