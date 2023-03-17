@@ -386,8 +386,7 @@ Ignores whitespace."
         "It"
         "her"
         "him"
-        "them"
-        (seq (any (?B . ?Z)))))
+        "them"))
 
 (defconst inform7-regex-adjective-keywords
     (inform7--make-keyword-list
@@ -535,6 +534,8 @@ Ignores whitespace."
 
 (defconst inform7-regex-general-keywords
     (inform7--make-keyword-list
+        "do nothing"
+        "of"
         "allow access"
         "deny access"
         "delete"
@@ -713,7 +714,6 @@ Ignores whitespace."
 (defconst inform7-regex-override-keywords
     (inform7--make-keyword-list
         ; etc
-        "of"
         "to the nearest"
         "minutes"
         "seconds"
@@ -774,7 +774,7 @@ Ignores whitespace."
         "repeat through"
         "choose"
         "running through"
-        (seq "running from" inform7-name " to")
+        (seq "running from " inform7-name " to")
         "next"
         "break"
         "reverse order"
@@ -842,9 +842,15 @@ Ignores whitespace."
         "encloses"))
 
 (defconst inform7-regex-called-clause
-    (inform7--make-keyword-list
-        "called"
-        "matched as"))
+    (rx "("
+        (group (or "called " "matched as "))
+        (group inform7-name)
+        ")"))
+
+(defconst inform7-regex-argument-clause
+    (rx "("
+        (group inform7-name) " - " (group (one-or-more (not (any ";" "." ":" ")"))))
+        ")"))
 
 (defconst inform7-regex-scene-keywords
     (inform7--make-keyword-list
@@ -886,7 +892,6 @@ Ignores whitespace."
        (,inform7-regex-calculated-adjective-keywords . 'inform7-statement-face)
        (,inform7-regex-calculated-adjective-statement . 'inform7-statement-face)
        (,inform7-regex-rule-keywords . 'inform7-statement-face)
-       (,inform7-regex-called-clause (0 'inform7-statement-face t))
        (,inform7-regex-general-keywords . 'inform7-statement-face)
        (,inform7-regex-general-statements . 'inform7-statement-face)
        (,inform7-regex-room-keywords (0 'inform7-statement-face t))
@@ -916,6 +921,13 @@ Ignores whitespace."
 
        ;; comments
        (,inform7-regex-comment 0 'font-lock-comment-face t)
+
+       ;; these override comments
+       (,inform7-regex-called-clause (1 'inform7-statement-face t))
+       (,inform7-regex-called-clause (2 'font-lock-variable-name-face t))
+
+       (,inform7-regex-argument-clause (1 'font-lock-variable-name-face t))
+       (,inform7-regex-argument-clause (2 'inform7-kind-face t))
        ;; strings
        (,inform7-regex-string-maybe-open 0 'inform7-string-face t)
        ;; substitutions
